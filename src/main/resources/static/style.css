@@ -1,0 +1,611 @@
+/* =============================================================
+   SentinelX – Black · Royal-Dark-Blue · Emerald Reflex
+   Pure CSS · No external fonts, libraries, or CDNs
+   ============================================================= */
+
+/* ── Design tokens ─────────────────────────────────────────── */
+:root {
+  /* ── Backgrounds: near-black base, royal-blue panels ── */
+  --bg-base:      #04070f;   /* almost-black canvas             */
+  --bg-layer:     #080f1e;   /* card / panel surface            */
+  --bg-raised:    #0c1628;   /* table header, filter inputs     */
+  --bg-overlay:   #101f38;   /* row hover / active              */
+
+  /* ── Borders: deep-blue glass lines ── */
+  --border-subtle: rgba(30,  80, 180, 0.16);
+  --border-dim:    rgba(30,  80, 180, 0.26);
+  --border-strong: rgba(60, 120, 220, 0.42);
+
+  /* ── Text ── */
+  --text-primary:  #cfe0f8;   /* cool bright white-blue          */
+  --text-secondary:#6a90c0;   /* mid-blue muted                  */
+  --text-tertiary: #2e4f78;   /* dim blue for footnotes          */
+
+  /* ── Emerald accent (reflex highlight) ── */
+  --emerald:       #12b87a;
+  --emerald-dim:   rgba(18, 184, 122, 0.10);
+  --emerald-glow:  rgba(18, 184, 122, 0.22);
+  --emerald-border:rgba(18, 184, 122, 0.30);
+
+  /* ── Royal blue accent (interactive) ── */
+  --royal:         #2563eb;
+  --royal-light:   #5b8def;
+  --royal-dim:     rgba(37,  99, 235, 0.14);
+  --royal-glow:    rgba(91, 141, 239, 0.28);
+
+  /* ── Severity ── */
+  --sev-low:            #12b87a;
+  --sev-low-dim:        rgba(18, 184, 122, 0.10);
+  --sev-low-border:     rgba(18, 184, 122, 0.28);
+
+  --sev-medium:         #d4a017;
+  --sev-medium-dim:     rgba(212, 160,  23, 0.10);
+  --sev-medium-border:  rgba(212, 160,  23, 0.28);
+
+  --sev-high:           #e0622a;
+  --sev-high-dim:       rgba(224,  98,  42, 0.10);
+  --sev-high-border:    rgba(224,  98,  42, 0.28);
+
+  --sev-critical:       #dc2626;
+  --sev-critical-dim:   rgba(220,  38,  38, 0.10);
+  --sev-critical-border:rgba(220,  38,  38, 0.28);
+
+  /* ── Fonts ── */
+  --font-ui:   -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Cascadia Code", "Fira Code", "JetBrains Mono", "Consolas", monospace;
+
+  /* ── Shape ── */
+  --radius-sm: 4px;
+  --radius:    7px;
+  --radius-lg: 10px;
+
+  /* ── Shadows ── */
+  --shadow-card:  0 1px 4px rgba(0,0,0,0.55), 0 6px 20px rgba(0,0,0,0.35);
+  --shadow-focus: 0 0 0 3px rgba(18, 184, 122, 0.30);
+}
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+/* ── Base ──────────────────────────────────────────────────── */
+body {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.65;
+  background-color: var(--bg-base);
+  /* Dual radial: royal-blue glow top-center + emerald whisper bottom-right */
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% 0%,
+        rgba(20, 50, 140, 0.30) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 100% 100%,
+        rgba(10, 100, 60,  0.12) 0%, transparent 65%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* ── Navigation bar ────────────────────────────────────────── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  height: 56px;
+  padding: 0 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(4, 7, 15, 0.90);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  /* Thin emerald hairline at very bottom of navbar */
+  box-shadow: 0 1px 0 rgba(18, 184, 122, 0.10);
+}
+
+.navbar-left  { display: flex; align-items: center; gap: 1rem; }
+.navbar-right { display: flex; align-items: center; gap: 1.5rem; }
+
+/* "SentinelX" brand ─ royal-blue base, emerald X */
+.navbar-brand {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  /* Layered: royal-blue body text */
+  color: #7aaff0;
+  text-shadow:
+    0 0 14px rgba(30, 80, 200, 0.60),
+    0 0 30px rgba(10, 40, 120, 0.40),
+    0 1px  2px rgba(0,  0,   0, 0.80);
+}
+
+/* The "X" gets emerald */
+.navbar-brand .accent {
+  color: var(--emerald);
+  text-shadow:
+    0 0 12px rgba(18, 184, 122, 0.70),
+    0 0 26px rgba(10, 120,  70, 0.40),
+    0 1px  2px rgba(0,   0,   0, 0.80);
+}
+
+/* "Threat Detection Dashboard" subtitle */
+.navbar-subtitle {
+  display: none;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  /* Soft violet-grey so it doesn't compete with the brand */
+  color: #4a6a9a;
+  border-left: 1px solid var(--border-subtle);
+  padding-left: 1rem;
+}
+
+@media (min-width: 560px) { .navbar-subtitle { display: block; } }
+
+/* Status dot + text */
+.navbar-status {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  transition: color 0.3s;
+}
+
+.navbar-status.online  { color: var(--emerald); }
+.navbar-status.offline { color: var(--sev-critical); }
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-tertiary);
+  flex-shrink: 0;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.navbar-status.online  .status-dot {
+  background: var(--emerald);
+  box-shadow: 0 0 8px var(--emerald);
+}
+.navbar-status.offline .status-dot {
+  background: var(--sev-critical);
+  box-shadow: 0 0 8px var(--sev-critical);
+}
+
+/* ── Layout container ──────────────────────────────────────── */
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+/* ── Page header ───────────────────────────────────────────── */
+.page-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* "// Security Event Monitor" */
+.page-header h1 {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  /* Deep royal-blue body */
+  color: #5b82c8;
+  text-shadow:
+    0 0 16px rgba(40,  70, 200, 0.55),
+    0 0 32px rgba(10,  30, 100, 0.35),
+    0 1px  2px rgba(0,   0,   0, 0.80);
+}
+
+/* The highlighted word(s) inside h1 get emerald */
+.page-header h1 span {
+  color: #3ee8a8;
+  font-weight: 700;
+  text-shadow:
+    0 0 12px rgba(18, 184, 122, 0.65),
+    0 0 26px rgba(8,  100,  55, 0.35),
+    0 1px  2px rgba(0,   0,   0, 0.80);
+}
+
+/* ── Section headers ───────────────────────────────────────── */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* "// Active Alerts" and "// Security Events" */
+.section-header h2 {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #4a7ab8;
+  text-shadow:
+    0 0 10px rgba(30, 60, 180, 0.40),
+    0 0 22px rgba(10, 30, 100, 0.25),
+    0 1px  2px rgba(0,  0,   0, 0.60);
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+/* Emerald rule on the left */
+.section-header h2::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 13px;
+  border-radius: 2px;
+  background: var(--emerald);
+  box-shadow: 0 0 6px var(--emerald-glow);
+  flex-shrink: 0;
+}
+
+/* ── Stat cards – flip system ───────────────────────────────── */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.25rem;
+}
+
+/* Outer shell – perspective per card */
+.flip-card {
+  perspective: 900px;
+  min-height: 118px;   /* enough for two lines of back-desc text */
+}
+
+/* Rotating wrapper */
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.flip-card:hover .flip-inner {
+  transform: rotateY(180deg);
+}
+
+/* Both faces – base card style */
+.stat-card {
+  background: var(--bg-layer);
+  border: 1px solid var(--border-subtle);
+  border-top: 2px solid var(--emerald);   /* default: emerald top accent */
+  border-radius: var(--radius-lg);
+  /* Fixed padding + overflow hidden so nothing spills out */
+  padding: 1rem 1.1rem;
+  box-shadow: var(--shadow-card);
+  /* Fill the flip container exactly */
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* Flex column so back text never overflows */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.stat-card.alerts   { border-top-color: var(--sev-critical); }
+.stat-card.low      { border-top-color: var(--sev-low); }
+.stat-card.medium   { border-top-color: var(--sev-medium); }
+.stat-card.high     { border-top-color: var(--sev-high); }
+.stat-card.critical { border-top-color: var(--sev-critical); }
+
+.flip-front { transform: rotateY(0deg); }
+
+.flip-back {
+  transform: rotateY(180deg);
+  background: var(--bg-raised);
+}
+
+.stat-card .label {
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+  /* Prevent label from wrapping or pushing other content */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stat-card .value {
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--emerald);
+}
+
+.stat-card.alerts   .value { color: var(--sev-critical); }
+.stat-card.low      .value { color: var(--sev-low); }
+.stat-card.medium   .value { color: var(--sev-medium); }
+.stat-card.high     .value { color: var(--sev-high); }
+.stat-card.critical .value { color: var(--sev-critical); }
+
+/* Back-face description – constrained so text cannot overflow */
+.back-desc {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin-top: 0.3rem;
+  /* Hard clamp to 4 lines max – prevents overflow on any card */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Per-card back-desc tint */
+.stat-card.alerts   .back-desc { color: #c07070; }
+.stat-card.low      .back-desc { color: #5db890; }
+.stat-card.medium   .back-desc { color: #b89050; }
+.stat-card.high     .back-desc { color: #b87050; }
+.stat-card.critical .back-desc { color: #c07070; }
+
+/* ── Filter controls ───────────────────────────────────────── */
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filters select {
+  padding: 0.38rem 0.75rem;
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.filters select:hover  { border-color: var(--border-strong); }
+.filters select:focus  {
+  outline: none;
+  border-color: var(--emerald);
+  box-shadow: var(--shadow-focus);
+}
+
+/* ── Alert cards ───────────────────────────────────────────── */
+.alerts-section { margin-bottom: 2.25rem; }
+
+.alert-card {
+  background: var(--bg-layer);
+  border: 1px solid var(--sev-critical-border);
+  border-left: 3px solid var(--sev-critical);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 0.85rem;
+  box-shadow: var(--shadow-card);
+  background-image: linear-gradient(to right,
+      var(--sev-critical-dim) 0%, transparent 35%);
+}
+
+.alert-card .alert-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.alert-card .rule-name {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--sev-critical);
+}
+
+.alert-card .alert-meta {
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.alert-card .alert-meta strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.alert-card .explanation {
+  font-size: 0.855rem;
+  line-height: 1.6;
+  color: #cfe0f8;   /* explicit – never let gradient wash this out */
+  margin-bottom: 0.65rem;
+}
+
+.alert-card .recommended {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #7a9ec8;   /* explicit muted-blue */
+  padding-top: 0.6rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.alert-card .recommended strong {
+  color: #d4a017;   /* amber – explicit so it always reads */
+  font-weight: 600;
+}
+
+.no-alerts {
+  background: var(--bg-layer);
+  border: 1px solid var(--emerald-border);
+  border-left: 3px solid var(--emerald);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.4rem;
+  font-size: 0.855rem;
+  color: var(--emerald);
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Events table ──────────────────────────────────────────── */
+.events-section { margin-bottom: 2.5rem; }
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-layer);
+  font-size: 0.83rem;
+}
+
+thead th {
+  background: var(--bg-raised);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-dim);
+  white-space: nowrap;
+  border-right: 1px solid var(--border-subtle);
+}
+
+thead th:last-child { border-right: none; }
+
+tbody td {
+  padding: 0.68rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+  color: var(--text-primary);
+}
+
+tbody tr:last-child td { border-bottom: none; }
+
+tbody tr:hover td { background: var(--bg-overlay); }
+
+/* Time column */
+tbody td:nth-child(1) {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* Source IP – emerald so it pops */
+tbody td:nth-child(3) {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--emerald);
+  white-space: nowrap;
+}
+
+/* Description – muted */
+tbody td:nth-child(6) {
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+/* ── Severity badges ───────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 0.17rem 0.55rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.63rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
+}
+
+.badge-LOW      { background: var(--sev-low-dim);      color: var(--sev-low);      border: 1px solid var(--sev-low-border); }
+.badge-MEDIUM   { background: var(--sev-medium-dim);   color: var(--sev-medium);   border: 1px solid var(--sev-medium-border); }
+.badge-HIGH     { background: var(--sev-high-dim);     color: var(--sev-high);     border: 1px solid var(--sev-high-border); }
+.badge-CRITICAL { background: var(--sev-critical-dim); color: var(--sev-critical); border: 1px solid var(--sev-critical-border); }
+
+/* ── State / loading messages ──────────────────────────────── */
+.state-msg {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+.state-msg.error { color: var(--sev-critical); font-style: normal; }
+
+/* ── Footer ────────────────────────────────────────────────── */
+footer {
+  text-align: center;
+  font-size: 0.72rem;
+  padding: 1.5rem 0 2.5rem;
+  border-top: 1px solid var(--border-subtle);
+  letter-spacing: 0.3px;
+  /* Subtle emerald top-glow on the footer border */
+  box-shadow: 0 -1px 0 rgba(18, 184, 122, 0.07);
+}
+
+/* "SentinelX" in footer – royal blue */
+.footer-brand {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--royal-light);
+  text-shadow: 0 0 10px rgba(37, 99, 235, 0.45);
+}
+
+/* Dash separator */
+.footer-sep {
+  color: var(--text-tertiary);
+  margin: 0 0.35rem;
+}
+
+/* "Synthetic data only" chunk */
+.footer-note {
+  color: var(--emerald);
+  font-weight: 500;
+}
+
+/* "For educational and portfolio use" chunk */
+.footer-sub {
+  color: #7a60c8;   /* soft violet – distinct from everything else */
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .navbar    { padding: 0 1rem; }
+  .container { padding: 1.25rem 1rem 2rem; }
+  .summary-grid { grid-template-columns: repeat(2, 1fr); }
+  .flip-card { min-height: 108px; }
+  .stat-card .value  { font-size: 1.85rem; }
+  .back-desc { font-size: 0.7rem; }
+  .alert-card { padding: 0.9rem 1rem; }
+  thead th, tbody td { padding: 0.6rem 0.75rem; }
+}

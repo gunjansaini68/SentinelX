@@ -1,0 +1,34 @@
+﻿# -----------------------------------------------------------------------
+# SentinelX – Git ignore rules
+# -----------------------------------------------------------------------
+
+# Maven build output
+target/
+
+# IDE – IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# IDE – VS Code
+.vscode/
+
+# IDE – Eclipse
+.classpath
+.project
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Compiled class files (also inside target/, listed for safety)
+*.class
+
+# Log files
+*.log
+
+# Do not commit secrets or local config overrides
+*.env
+application-local.properties

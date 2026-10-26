@@ -1,0 +1,11 @@
+# SentinelX – Python Dependencies
+# IBM SkillsBuild Cybersecurity Bootcamp – October 2026
+# Submitted by: Gunjan Saini
+#
+# Install all dependencies with:
+#   pip install -r requirements.txt
+#
+# Python version: 3.9+
+
+pandas>=2.0.0
+matplotlib>=3.7.0

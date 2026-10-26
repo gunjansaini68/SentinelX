@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentinelX – Security Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================================================================
+     Navigation bar
+     ================================================================ -->
+<nav class="navbar">
+    <div class="navbar-left">
+        <span class="navbar-brand">Sentinel<span class="accent">X</span></span>
+        <span class="navbar-subtitle">Threat Detection Dashboard</span>
+    </div>
+    <div class="navbar-right">
+        <span id="navStatus" class="navbar-status">
+            <span class="status-dot"></span>
+            <span id="navStatusText">Connecting…</span>
+        </span>
+    </div>
+</nav>
+
+<!-- ================================================================
+     Main content
+     ================================================================ -->
+<main class="container">
+
+    <!-- ── Page heading ────────────────────────────────────────── -->
+    <div class="page-header">
+        <h1>// <span>Security Event Monitor</span></h1>
+    </div>
+
+    <!-- ── Summary stat cards – flip on hover ──────────────────── -->
+    <div class="summary-grid">
+
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="stat-card flip-front">
+              <div class="label">Total Events</div>
+              <div class="value" id="statTotal">—</div>
+            </div>
+            <div class="stat-card flip-back">
+              <div class="label">Total Events</div>
+              <div class="back-desc">All synthetic security events currently tracked in memory.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="stat-card alerts flip-front">
+              <div class="label">Active Alerts</div>
+              <div class="value" id="statAlerts">—</div>
+            </div>
+            <div class="stat-card alerts flip-back">
+              <div class="label">Active Alerts</div>
+              <div class="back-desc">Brute-force login clusters detected within the configured time window.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="stat-card low flip-front">
+              <div class="label">Low</div>
+              <div class="value" id="statLow">—</div>
+            </div>
+            <div class="stat-card low flip-back">
+              <div class="label">Low Severity</div>
+              <div class="back-desc">Routine events — informational only, no immediate action required.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="stat-card medium flip-front">
+              <div class="label">Medium</div>
+              <div class="value" id="statMedium">—</div>
+            </div>
+            <div class="stat-card medium flip-back">
+              <div class="label">Medium Severity</div>
+              <div class="back-desc">Unusual activity — review and monitor, may escalate if unaddressed.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="stat-card high flip-front">
+              <div class="label">High</div>
+              <div class="value" id="statHigh">—</div>
+            </div>
+            <div class="stat-card high flip-back">
+              <div class="label">High Severity</div>
+              <div class="back-desc">Active threat indicators — investigate promptly and consider containment.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="stat-card critical flip-front">
+              <div class="label">Critical</div>
+              <div class="value" id="statCritical">—</div>
+            </div>
+            <div class="stat-card critical flip-back">
+              <div class="label">Critical Severity</div>
+              <div class="back-desc">Immediate response required — escalate, isolate, and investigate now.</div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+    <!-- ── Active alerts ───────────────────────────────────────── -->
+    <section class="alerts-section">
+        <div class="section-header">
+            <h2>Active Alerts</h2>
+        </div>
+        <div id="alertsContainer">
+            <p class="state-msg">Loading…</p>
+        </div>
+    </section>
+
+    <!-- ── Security events table ───────────────────────────────── -->
+    <section class="events-section">
+        <div class="section-header">
+            <h2>Security Events</h2>
+            <div class="filters">
+                <select id="filterSeverity" aria-label="Filter by severity">
+                    <option value="">All Severities</option>
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                    <option value="CRITICAL">Critical</option>
+                </select>
+                <select id="filterType" aria-label="Filter by event type">
+                    <option value="">All Types</option>
+                    <option value="LOGIN_FAILURE">Login Failure</option>
+                    <option value="LOGIN_SUCCESS">Login Success</option>
+                    <option value="PORT_SCAN">Port Scan</option>
+                    <option value="PRIVILEGE_ESCALATION">Privilege Escalation</option>
+                    <option value="SUSPICIOUS_TRAFFIC">Suspicious Traffic</option>
+                </select>
+            </div>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>User</th>
+                        <th>Source IP</th>
+                        <th>Event Type</th>
+                        <th>Severity</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody id="eventsBody">
+                    <tr><td colspan="6" class="state-msg">Loading…</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <span class="footer-brand">SentinelX</span><span class="footer-sep">&mdash;</span><span class="footer-note">Synthetic data only.</span> <span class="footer-sub">For educational and portfolio use.</span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
